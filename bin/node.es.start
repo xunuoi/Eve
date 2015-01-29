@@ -1,0 +1,26 @@
+#!/usr/bin/env node
+var debug = require('debug')('es'),
+    cluster = require('cluster'),
+    numCPUs = require('os').cpus().length;
+  
+var app = require('../app');
+
+if (cluster.isMaster) {
+    console.log('[Master] start ...')
+    //Fork a worker to run the main program
+    for (var i = 0; i < numCPUs; i++) {
+        cluster.fork();
+    }
+} else {
+    console.log('[Worker] ' + "start worker ..." + cluster.worker.id);
+    //Run main program
+    app.start();
+    console.log('[Worker] is Running ...');
+}
+
+cluster.on('death', function(worker) {
+    //If the worker died, fork a new worker
+    console.log('[Worker] ' + worker.pid + ' died. restart...');
+    cluster.fork();
+});
+
