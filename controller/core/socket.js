@@ -3,6 +3,8 @@ var debug = require('debug')('es'),
 
 var ut = require('./util'), eve, socket,
     spider = require('../../util/spider/spider');
+
+var _server, _app;
  
 function parseContent(data){
     var word = data.message;
@@ -52,7 +54,28 @@ function parseContent(data){
         
     }
 }
-exports.init = function(server, app){
+
+
+function onErrorFn(err){
+    console.log('**ERROR: ', err)
+    try{
+        socket.emit('response', 
+        ut.ansFormat({
+            status: 2,
+            message: 'error',
+            data: 'Network Error, try again ?',
+            emoji: 'shy'
+        }))
+    }catch(err){
+        _init(_server, _app)
+    }
+}
+
+function _init(server, app){
+
+    _server = server 
+    _app = app
+
     socket = sio.listen(server);
     eve = app.eve;
 
@@ -66,11 +89,27 @@ exports.init = function(server, app){
             //parse
             parseContent(data);
             
-        });
+        })
+
+        client.on('error',function(err){ 
+            console.log('*** Client Error', err)
+            //parse
+            onErrorFn(err)
+            
+        })
 
         //断开连接callback
         client.on('disconnect',function(){
             debug('*** >>Server has disconnected!');
-        });
-    });
+        })
+    })
+    .on('error', function(err){ 
+        console.log('*** Socket Error', err)
+        //parse
+        onErrorFn(err)
+        
+    })
 }
+
+
+exports.init = _init
