@@ -1,11 +1,10 @@
 # Eve
-聊天机器人Eve  - 部分代码
+聊天机器人Eve  - 核心代码
 
-放上来一部分简单词库、分词、解析等
-controller/core 目录中
+能做简单地自动回复、聊天等，类似于小黄鸡
+放上来词库、分词、解析部分的代码等，controller/core 目录中
 
-
-[访问](http://cloud.vzhen.com)
+[点击访问Eve，跟她聊起来](http://cloud.vzhen.com)
 
 ###### 教学模式
 
