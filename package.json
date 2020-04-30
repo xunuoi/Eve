@@ -12,7 +12,7 @@
     "morgan": "~1.2.3",
     "serve-favicon": "~2.0.1",
     "debug": "~1.0.4",
-    "ejs": "~0.8.5",
+    "ejs": "~3.1.2",
     "node-compass": "0.2.3",
     "hiredis": "latest",
     "redis": "latest",
