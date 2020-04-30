@@ -13,10 +13,11 @@
 
 － 通过`::`符号来间隔问题和答案
 
-````Javascript
+```Javascript
 Q::A
 ```
+
 Like:
-````Javascript
+```Javascript
 Tell me you age::I am 13 now
 ```
